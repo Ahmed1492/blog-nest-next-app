@@ -1,0 +1,199 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Inter", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #c4b5fd;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #5044e5;
+}
+
+/* ── Blob animation ── */
+@keyframes blob {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+}
+.animate-blob {
+  animation: blob 8s ease-in-out infinite;
+}
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* ── Shimmer skeleton ── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ── Gradient text ── */
+.gradient-text {
+  background: linear-gradient(135deg, #5044e5 0%, #8b5cf6 50%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Glass card ── */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ── Hero background ── */
+.bg-hero {
+  min-height: 80vh;
+  padding: 6rem 1rem 4rem;
+  background:
+    radial-gradient(
+      ellipse at 60% 0%,
+      rgba(80, 68, 229, 0.08) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 0% 80%,
+      rgba(139, 92, 246, 0.06) 0%,
+      transparent 50%
+    ),
+    #ffffff;
+}
+
+/* ── Line clamp ── */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Rich text ── */
+.rich-text {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #374151;
+}
+.rich-text p {
+  margin-bottom: 20px;
+}
+.rich-text h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 2rem 0 1rem;
+}
+.rich-text h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 1.75rem 0 0.75rem;
+}
+.rich-text h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 1.5rem 0 0.5rem;
+}
+.rich-text strong {
+  font-weight: 700;
+  color: #111827;
+}
+.rich-text ol {
+  margin-left: 1.5rem;
+  list-style-type: decimal;
+  margin-bottom: 1rem;
+}
+.rich-text ul {
+  margin-left: 1.5rem;
+  list-style-type: disc;
+  margin-bottom: 1rem;
+}
+.rich-text li {
+  margin-bottom: 0.5rem;
+}
+.rich-text a {
+  color: #5044e5;
+  text-decoration: underline;
+}
+.rich-text blockquote {
+  border-left: 4px solid #5044e5;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: #6b7280;
+  font-style: italic;
+}
+.rich-text code {
+  background: #f3f4f6;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.875em;
+  font-family: monospace;
+}
+.rich-text pre {
+  background: #1f2937;
+  color: #f9fafb;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+/* ── Floating label inputs ── */
+.input-field {
+  @apply w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl
+         focus:ring-2 focus:ring-primary/30 focus:border-primary focus:bg-white
+         outline-none transition-all duration-200 text-gray-800 placeholder:text-gray-400;
+}
+
+/* ── Section divider ── */
+.section-divider {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #5044e5, #8b5cf6);
+  border-radius: 2px;
+  margin: 0 auto 1.5rem;
+}
