@@ -24,7 +24,22 @@ export default function AddBlog() {
   useEffect(() => {
     if (typeof window !== "undefined" && !quillRef.current && editorRef.current) {
       import("quill").then(({ default: Quill }) => {
-        quillRef.current = new Quill(editorRef.current, { theme: "snow" });
+        // Only initialize once
+        if (!editorRef.current.classList.contains('ql-container')) {
+          quillRef.current = new Quill(editorRef.current, { 
+            theme: "snow",
+            modules: {
+              toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                ['blockquote', 'code-block'],
+                ['link'],
+                ['clean']
+              ]
+            }
+          });
+        }
       });
     }
   }, []);
@@ -42,10 +57,38 @@ export default function AddBlog() {
         quillRef.current.root.innerHTML = parse(res.data.content);
         toast.success("Content generated!");
       } else {
-        toast.error(res.data.err || "Generation failed");
+        // Parse error message if it's JSON
+        let errorMessage = "Generation failed";
+        try {
+          const errorData = JSON.parse(res.data.err);
+          if (errorData.error?.code === 503 || errorData.error?.status === "UNAVAILABLE") {
+            errorMessage = "AI service is experiencing high demand. Please try again in a few moments.";
+          } else if (errorData.error?.message) {
+            errorMessage = errorData.error.message;
+          }
+        } catch {
+          errorMessage = res.data.err || res.data.message || "Generation failed";
+        }
+        toast.error(errorMessage, { duration: 5000 });
       }
     } catch (err) {
-      toast.error(err.message);
+      // Handle network or other errors
+      let errorMessage = "Failed to generate content";
+      if (err.response?.data?.err) {
+        try {
+          const errorData = JSON.parse(err.response.data.err);
+          if (errorData.error?.code === 503 || errorData.error?.status === "UNAVAILABLE") {
+            errorMessage = "AI service is experiencing high demand. Please try again in a few moments.";
+          } else if (errorData.error?.message) {
+            errorMessage = errorData.error.message;
+          }
+        } catch {
+          errorMessage = err.response.data.err || err.message;
+        }
+      } else {
+        errorMessage = err.message;
+      }
+      toast.error(errorMessage, { duration: 5000 });
     } finally {
       setIsGenerating(false);
     }
@@ -72,9 +115,23 @@ export default function AddBlog() {
       });
 
       if (res.data.success) {
-        toast.success(res.data.message);
-        setTitle(""); setSubTitle(""); setImage(null); setCategory("Technology"); setIsPublished(false);
+        const successMessage = isPublished 
+          ? "Blog published successfully! 🎉" 
+          : "Blog saved as draft. Publish it to make it visible.";
+        toast.success(successMessage, { duration: 4000 });
+        
+        // Reset form
+        setTitle(""); 
+        setSubTitle(""); 
+        setImage(null); 
+        setCategory("Technology"); 
+        setIsPublished(false);
         quillRef.current.root.innerHTML = "";
+        
+        // Redirect to list after a short delay
+        setTimeout(() => {
+          window.location.href = "/admin/list-blogs";
+        }, 1500);
       } else {
         toast.error(res.data.err || res.data.message);
       }
@@ -158,31 +215,34 @@ export default function AddBlog() {
 
         {/* Editor */}
         <div>
-          <div className="flex items-center justify-between mb-1.5">
+          <div className="flex items-center justify-between mb-2">
             <label className="block text-sm font-medium text-gray-700">Content</label>
             <button
               type="button"
               onClick={generateContent}
               disabled={isGenerating}
-              className="flex items-center gap-1.5 text-xs font-medium text-white bg-gray-800 hover:bg-gray-700 disabled:opacity-60 px-3 py-1.5 rounded-lg transition-all"
+              className="flex items-center gap-1.5 text-xs font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 disabled:opacity-60 px-4 py-2 rounded-lg transition-all shadow-sm"
             >
               {isGenerating ? (
                 <>
-                  <svg className="w-3 h-3 animate-spin" fill="none" viewBox="0 0 24 24">
+                  <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
                   Generating...
                 </>
               ) : (
-                <>✨ Generate with AI</>
+                <>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  Generate with AI
+                </>
               )}
             </button>
           </div>
-          {/* Quill CSS */}
-          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" />
-          <div className="border border-gray-200 rounded-xl overflow-hidden">
-            <div ref={editorRef} className="min-h-[280px]" />
+          <div className="border border-gray-200 rounded-xl overflow-hidden bg-white quill-wrapper">
+            <div ref={editorRef} className="min-h-[320px]" />
           </div>
         </div>
 
@@ -211,7 +271,12 @@ export default function AddBlog() {
               />
               <div className="w-10 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary" />
             </label>
-            <span className="text-sm font-medium text-gray-700">Publish immediately</span>
+            <div>
+              <span className="text-sm font-medium text-gray-700">Publish immediately</span>
+              <p className="text-xs text-gray-400 mt-0.5">
+                {isPublished ? "Blog will be visible to everyone" : "Save as draft (not visible publicly)"}
+              </p>
+            </div>
           </div>
         </div>
 

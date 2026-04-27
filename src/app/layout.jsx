@@ -12,15 +12,6 @@ export const metadata = {
   creator: 'Ahmed Mohamed',
   publisher: 'Ahmed Mohamed',
   keywords: ['blog', 'technology', 'lifestyle', 'finance', 'startups', 'articles', 'blogging platform'],
-  icons: {
-    icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: 'any' },
-    ],
-    apple: '/apple-touch-icon.png',
-    shortcut: '/favicon.ico',
-  },
-  manifest: '/site.webmanifest',
   openGraph: {
     type: 'website',
     locale: 'en_US',

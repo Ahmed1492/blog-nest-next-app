@@ -6,6 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { useAppContext } from "@/context/AppContext";
+import { TableSkeleton } from "@/components/Skeleton";
 
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
@@ -108,17 +109,8 @@ export default function ListBlogs() {
         className="bg-white rounded-2xl border border-gray-100 shadow-card overflow-hidden"
       >
         {isLoading ? (
-          <div className="p-6 space-y-4">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="flex gap-4 items-center">
-                <div className="w-8 h-4 skeleton rounded" />
-                <div className="flex-1 h-4 skeleton rounded" />
-                <div className="w-20 h-4 skeleton rounded" />
-                <div className="w-24 h-4 skeleton rounded" />
-                <div className="w-20 h-4 skeleton rounded" />
-                <div className="w-32 h-8 skeleton rounded-lg" />
-              </div>
-            ))}
+          <div className="p-6">
+            <TableSkeleton rows={5} columns={6} />
           </div>
         ) : filtered.length === 0 ? (
           <div className="p-16 text-center text-gray-400">

@@ -28,11 +28,15 @@ export default function AdminLayout({ children }) {
   if (!token) return null;
 
   return (
-    <div className="flex min-h-[calc(100vh-64px)] bg-gray-50">
-      <AdminSidebar />
-      <main className="flex-1 overflow-auto p-6 md:p-8">
-        {children}
-      </main>
-    </div>
+    <>
+      {/* Quill CSS - loaded once globally for admin */}
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" />
+      <div className="flex min-h-[calc(100vh-64px)] bg-gray-50">
+        <AdminSidebar />
+        <main className="flex-1 overflow-auto p-6 md:p-8">
+          {children}
+        </main>
+      </div>
+    </>
   );
 }

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useAppContext } from "@/context/AppContext";
+import { CommentSkeleton } from "@/components/Skeleton";
 
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
@@ -117,16 +118,11 @@ export default function Comments() {
         className="space-y-3"
       >
         {isLoading ? (
-          Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="bg-white rounded-2xl border border-gray-100 p-5 flex gap-4">
-              <div className="w-10 h-10 skeleton rounded-full shrink-0" />
-              <div className="flex-1 space-y-2">
-                <div className="w-40 h-4 skeleton rounded" />
-                <div className="w-full h-3 skeleton rounded" />
-                <div className="w-3/4 h-3 skeleton rounded" />
-              </div>
-            </div>
-          ))
+          <div className="space-y-3">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <CommentSkeleton key={i} />
+            ))}
+          </div>
         ) : filtered.length === 0 ? (
           <div className="bg-white rounded-2xl border border-gray-100 p-16 text-center text-gray-400">
             <svg className="w-12 h-12 mx-auto mb-3 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">

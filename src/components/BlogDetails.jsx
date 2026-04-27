@@ -4,8 +4,13 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { BlogDetailsSkeleton } from "./Skeleton";
 
-const BlogDetails = ({ blog }) => {
+const BlogDetails = ({ blog, isLoading = false }) => {
+  if (isLoading) {
+    return <BlogDetailsSkeleton />;
+  }
+
   if (!blog) return null;
 
   const categoryColors = {

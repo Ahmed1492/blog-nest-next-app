@@ -10,17 +10,31 @@ import Link from 'next/link';
 async function getBlog(id) {
   try {
     await connectDB();
-    const blog = await Blog.findById(id).lean();
-    if (!blog) return null;
+    
+    // Validate MongoDB ObjectId format
+    if (!id || !/^[0-9a-fA-F]{24}$/.test(id)) {
+      console.log('Invalid ObjectId format:', id);
+      return null;
+    }
+    
+    // Find blog and check if it's published (for public access)
+    const blog = await Blog.findOne({ _id: id, isPublished: true }).lean();
+    if (!blog) {
+      console.log('Blog not found or not published for id:', id);
+      return null;
+    }
+    
     // Convert ObjectId / Date to plain strings for serialization
     return JSON.parse(JSON.stringify(blog));
-  } catch {
+  } catch (error) {
+    console.error('Error fetching blog:', error);
     return null;
   }
 }
 
 export async function generateMetadata({ params }) {
-  const blog = await getBlog(params.id);
+  const { id } = await params;
+  const blog = await getBlog(id);
   if (!blog) return { title: 'Blog Not Found' };
   return {
     title: `${blog.title} — BlogNest`,
@@ -29,7 +43,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function BlogPage({ params }) {
-  const blog = await getBlog(params.id);
+  const { id } = await params;
+  const blog = await getBlog(id);
 
   if (!blog) {
     return (
@@ -43,8 +58,9 @@ export default async function BlogPage({ params }) {
               </svg>
             </div>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">Blog Not Found</h2>
-            <p className="text-gray-500 mb-6">This article doesn't exist or has been removed.</p>
-            <Link href="/" className="bg-primary text-white px-6 py-3 rounded-xl hover:bg-primary/90 transition-colors text-sm font-medium">
+            <p className="text-gray-500 mb-2">This article doesn't exist, has been removed, or is not published yet.</p>
+            <p className="text-xs text-gray-400 mb-6">If you're the admin, make sure the blog is published.</p>
+            <Link href="/" className="bg-primary text-white px-6 py-3 rounded-xl hover:bg-primary/90 transition-colors text-sm font-medium inline-block">
               Back to Home
             </Link>
           </div>
@@ -58,7 +74,7 @@ export default async function BlogPage({ params }) {
     <div className="min-h-screen bg-white">
       <BlogDetails blog={blog} />
       <div className="max-w-3xl mx-auto px-4 pb-12">
-        <BlogComments blogId={params.id} />
+        <BlogComments blogId={id} />
       </div>
       <Footer />
     </div>

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from 'axios';
-import toast from 'react-hot-toast';
+import { CommentSkeleton } from "./Skeleton";
 
 const BlogComments = ({ blogId }) => {
   const [comments, setComments] = useState([]);
@@ -144,14 +144,7 @@ const BlogComments = ({ blogId }) => {
         {isLoading ? (
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="flex gap-4 p-5 rounded-2xl border border-gray-100">
-                <div className="w-10 h-10 rounded-full skeleton shrink-0" />
-                <div className="flex-1 space-y-2">
-                  <div className="w-32 h-4 skeleton rounded" />
-                  <div className="w-full h-3 skeleton rounded" />
-                  <div className="w-3/4 h-3 skeleton rounded" />
-                </div>
-              </div>
+              <CommentSkeleton key={i} />
             ))}
           </div>
         ) : comments.length === 0 ? (

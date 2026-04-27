@@ -12,6 +12,7 @@ export const AppProvider = ({ children, initialBlogs = [] }) => {
   const [blogs, setBlogs] = useState(initialBlogs);
   const [input, setInput] = useState("");
   const [mounted, setMounted] = useState(false);
+  const [isLoadingBlogs, setIsLoadingBlogs] = useState(false);
   const pathname = usePathname();
 
   const backEndUrl = "";
@@ -36,6 +37,7 @@ export const AppProvider = ({ children, initialBlogs = [] }) => {
   }, [token, mounted]);
 
   const fetchBlogs = async () => {
+    setIsLoadingBlogs(true);
     try {
       const response = await axios.get(`${backEndUrl}/api/blog/`, {
         headers: {
@@ -50,6 +52,8 @@ export const AppProvider = ({ children, initialBlogs = [] }) => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setIsLoadingBlogs(false);
     }
   };
 
@@ -63,6 +67,7 @@ export const AppProvider = ({ children, initialBlogs = [] }) => {
     setInput,
     fetchBlogs,
     mounted,
+    isLoadingBlogs,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

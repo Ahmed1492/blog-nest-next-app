@@ -3,17 +3,22 @@
 import React, { useState } from "react";
 import BlogCard from "./BlogCard";
 import { motion, AnimatePresence } from "framer-motion";
-import { BlogListSkeleton } from "./Loader";
+import { BlogListSkeleton } from "./Skeleton";
 import { useAppContext } from "@/context/AppContext";
 
 const BlogList = ({ initialBlogs = [] }) => {
   const filters = ["All", "Technology", "Startup", "Lifestyle", "Finance"];
   const [currentFilter, setCurrentFilter] = useState("All");
-  const { blogs: contextBlogs, input } = useAppContext();
+  const { blogs: contextBlogs, input, isLoadingBlogs } = useAppContext();
 
   // Use server-provided blogs first, fall back to context (client fetch)
   const blogs = contextBlogs.length > 0 ? contextBlogs : initialBlogs;
-  const isLoading = blogs.length === 0 && initialBlogs.length === 0;
+  
+  // Show loading only when actively fetching from client
+  const isLoading = isLoadingBlogs && blogs.length === 0;
+  
+  // Show empty state when not loading and no blogs exist
+  const hasNoBlogs = !isLoading && blogs.length === 0;
 
   const filterBlogs = () => {
     let filtered = blogs;
@@ -35,8 +40,67 @@ const BlogList = ({ initialBlogs = [] }) => {
 
   const filtered = filterBlogs();
 
+  // Show skeleton only during initial load
   if (isLoading) {
-    return <BlogListSkeleton />;
+    return (
+      <section className="py-20 px-4 bg-gradient-to-b from-white to-gray-50/50">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <div className="section-divider" />
+            <h2 className="text-4xl font-bold text-gray-900 mb-3">
+              Latest <span className="gradient-text">Articles</span>
+            </h2>
+            <p className="text-gray-500 text-base max-w-2xl mx-auto">
+              Loading amazing content for you...
+            </p>
+          </motion.div>
+          <BlogListSkeleton />
+        </div>
+      </section>
+    );
+  }
+
+  // Show empty state if no blogs exist at all
+  if (hasNoBlogs) {
+    return (
+      <section className="py-20 px-4 bg-gradient-to-b from-white to-gray-50/50">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <div className="section-divider" />
+            <h2 className="text-4xl font-bold text-gray-900 mb-3">
+              Latest <span className="gradient-text">Articles</span>
+            </h2>
+            <p className="text-gray-500 text-base max-w-2xl mx-auto">
+              Explore our most recent posts across all categories
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-24"
+          >
+            <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+              <svg className="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <p className="text-lg font-medium text-gray-700 mb-1">No blogs published yet</p>
+            <p className="text-sm text-gray-400">Check back soon for new content!</p>
+          </motion.div>
+        </div>
+      </section>
+    );
   }
 
   return (

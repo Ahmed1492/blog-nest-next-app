@@ -1,0 +1,24 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="90" cy="90" r="90" fill="url(#gradient)"/>
+  
+  <!-- Book/Blog Icon -->
+  <path d="M56 45C53.2386 45 51 47.2386 51 50V130C51 132.761 53.2386 135 56 135H124C126.761 135 129 132.761 129 130V50C129 47.2386 126.761 45 124 45H56Z" fill="white" fill-opacity="0.95"/>
+  
+  <!-- Pages -->
+  <path d="M62 56H118V62H62V56Z" fill="url(#gradient)"/>
+  <path d="M62 73H118V79H62V73Z" fill="url(#gradient)" fill-opacity="0.7"/>
+  <path d="M62 90H107V96H62V90Z" fill="url(#gradient)" fill-opacity="0.5"/>
+  <path d="M62 107H101V113H62V107Z" fill="url(#gradient)" fill-opacity="0.3"/>
+  
+  <!-- Nest/Feather accent -->
+  <path d="M107 101C107 101 118 96 124 107C124 107 124 118 113 124C113 124 107 118 107 113V101Z" fill="#FF6B6B" opacity="0.8"/>
+  
+  <!-- Gradient Definition -->
+  <defs>
+    <linearGradient id="gradient" x1="0" y1="0" x2="180" y2="180" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+</svg>

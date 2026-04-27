@@ -62,6 +62,9 @@ html {
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
+.animate-shimmer {
+  animation: shimmer 1.5s ease-in-out infinite;
+}
 
 /* ── Gradient text ── */
 .gradient-text {
@@ -196,4 +199,109 @@ html {
   background: linear-gradient(90deg, #5044e5, #8b5cf6);
   border-radius: 2px;
   margin: 0 auto 1.5rem;
+}
+
+/* ── Quill Editor Custom Styles ── */
+.quill-wrapper .ql-toolbar {
+  background: #f9fafb;
+  border: none !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  border-radius: 0;
+  padding: 12px;
+}
+
+.quill-wrapper .ql-container {
+  border: none !important;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.quill-wrapper .ql-editor {
+  min-height: 320px;
+  padding: 20px;
+}
+
+.quill-wrapper .ql-editor.ql-blank::before {
+  color: #9ca3af;
+  font-style: normal;
+}
+
+.quill-wrapper .ql-toolbar button {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.quill-wrapper .ql-toolbar button:hover {
+  background: #e5e7eb;
+}
+
+.quill-wrapper .ql-toolbar button.ql-active {
+  background: #5044e5;
+  color: white;
+}
+
+.quill-wrapper .ql-toolbar .ql-stroke {
+  stroke: #6b7280;
+}
+
+.quill-wrapper .ql-toolbar button:hover .ql-stroke {
+  stroke: #374151;
+}
+
+.quill-wrapper .ql-toolbar button.ql-active .ql-stroke {
+  stroke: white;
+}
+
+.quill-wrapper .ql-toolbar .ql-fill {
+  fill: #6b7280;
+}
+
+.quill-wrapper .ql-toolbar button:hover .ql-fill {
+  fill: #374151;
+}
+
+.quill-wrapper .ql-toolbar button.ql-active .ql-fill {
+  fill: white;
+}
+
+.quill-wrapper .ql-editor h1 {
+  font-size: 2em;
+  font-weight: 700;
+  margin: 1em 0 0.5em;
+}
+
+.quill-wrapper .ql-editor h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin: 0.83em 0 0.5em;
+}
+
+.quill-wrapper .ql-editor h3 {
+  font-size: 1.17em;
+  font-weight: 600;
+  margin: 0.75em 0 0.5em;
+}
+
+.quill-wrapper .ql-editor blockquote {
+  border-left: 4px solid #5044e5;
+  padding-left: 16px;
+  margin: 16px 0;
+  color: #6b7280;
+}
+
+.quill-wrapper .ql-editor code {
+  background: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.quill-wrapper .ql-editor pre {
+  background: #1f2937;
+  color: #f9fafb;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
 }

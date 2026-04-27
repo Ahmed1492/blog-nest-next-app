@@ -6,6 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { useAppContext } from "@/context/AppContext";
+import { DashboardCardSkeleton, TableSkeleton } from "@/components/Skeleton";
 
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
@@ -169,7 +170,14 @@ export default function Dashboard() {
 
       {/* ── Stat Cards ── */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        {stats.map((s, i) => (
+        {isLoading ? (
+          <>
+            <DashboardCardSkeleton />
+            <DashboardCardSkeleton />
+            <DashboardCardSkeleton />
+          </>
+        ) : (
+          stats.map((s, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 24 }}
@@ -197,20 +205,12 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {isLoading ? (
-                <div className="space-y-2">
-                  <div className="w-16 h-8 skeleton rounded" />
-                  <div className="w-24 h-3 skeleton rounded" />
-                </div>
-              ) : (
-                <>
-                  <p className="text-3xl font-extrabold text-gray-900">{s.value ?? "—"}</p>
-                  <p className="text-xs text-gray-400 mt-1">{s.change}</p>
-                </>
-              )}
+              <p className="text-3xl font-extrabold text-gray-900">{s.value ?? "—"}</p>
+              <p className="text-xs text-gray-400 mt-1">{s.change}</p>
             </div>
           </motion.div>
-        ))}
+        ))
+        )}
       </div>
 
       {/* ── Quick Actions ── */}
@@ -268,16 +268,8 @@ export default function Dashboard() {
         </div>
 
         {isLoading ? (
-          <div className="p-6 space-y-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="flex items-center gap-4">
-                <div className="w-8 h-8 skeleton rounded-lg shrink-0" />
-                <div className="flex-1 h-4 skeleton rounded" />
-                <div className="w-20 h-4 skeleton rounded" />
-                <div className="w-20 h-6 skeleton rounded-full" />
-                <div className="w-32 h-8 skeleton rounded-xl" />
-              </div>
-            ))}
+          <div className="p-6">
+            <TableSkeleton rows={4} columns={6} />
           </div>
         ) : !data?.recentBlogs?.length ? (
           <div className="py-20 text-center">
