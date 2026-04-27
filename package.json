@@ -2,6 +2,19 @@
   "name": "blog-nest",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Ahmed Mohamed",
+    "email": "ahmed@gmail.com"
+  },
+  "description": "A modern blogging platform built with Next.js, MongoDB, and AI-powered content generation",
+  "keywords": [
+    "blog",
+    "nextjs",
+    "mongodb",
+    "ai",
+    "blogging-platform",
+    "gemini-ai"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",

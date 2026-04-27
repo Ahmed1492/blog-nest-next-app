@@ -8,9 +8,36 @@ import Blog from '@/models/Blog'
 export const metadata = {
   title: 'BlogNest - Your Blogging Platform',
   description: 'Discover insightful articles on technology, lifestyle, finance, and startups.',
+  authors: [{ name: 'Ahmed Mohamed' }],
+  creator: 'Ahmed Mohamed',
+  publisher: 'Ahmed Mohamed',
+  keywords: ['blog', 'technology', 'lifestyle', 'finance', 'startups', 'articles', 'blogging platform'],
   icons: {
-    icon: '/favicon.ico',
-    apple: '/favicon.ico',
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    apple: '/apple-touch-icon.png',
+    shortcut: '/favicon.ico',
+  },
+  manifest: '/site.webmanifest',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://blognest.vercel.app',
+    title: 'BlogNest - Your Blogging Platform',
+    description: 'Discover insightful articles on technology, lifestyle, finance, and startups.',
+    siteName: 'BlogNest',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'BlogNest - Your Blogging Platform',
+    description: 'Discover insightful articles on technology, lifestyle, finance, and startups.',
+    creator: '@ahmedmohamed',
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 }
 

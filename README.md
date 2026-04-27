@@ -1,5 +1,7 @@
 # BlogNest - Your Blogging Platform
 
+**© 2026 Ahmed Mohamed. All rights reserved.**
+
 A modern, full-featured blogging platform built with Next.js 15, MongoDB, and AI-powered content generation.
 
 ## Features
