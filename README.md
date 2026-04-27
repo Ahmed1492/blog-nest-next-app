@@ -4,6 +4,19 @@
 
 A modern, full-featured blogging platform built with Next.js 16, MongoDB, and AI-powered content generation with beautiful UI/UX and skeleton loading states.
 
+
+
+
+
+---
+
+## 🎥 Demo  
+
+[![Live Demo](https://img.shields.io/badge/View%20Live-Vercel-blue?style=for-the-badge&logo=vercel)](https://blog-nest-nextjs-app.vercel.app/)
+
+---
+
+
 ## ✨ Features
 
 ### Content Management
